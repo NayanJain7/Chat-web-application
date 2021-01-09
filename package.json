@@ -4,8 +4,7 @@
   "description": "chat applocation",
   "main": "ClientPart/server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start":"nodemon ClientPart/server.js"
+    "dev":"nodemon ClientPart/server.js"
   },
   "author": "nayan",
   "license": "ISC",
