@@ -5,7 +5,7 @@
   "main": "ClientPart/server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start":"nodemon server.js"
+    "start":"nodemon ClientPart/server.js"
   },
   "author": "nayan",
   "license": "ISC",
