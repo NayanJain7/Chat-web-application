@@ -8,7 +8,8 @@ const port = process.env.PORT || 8000
 app.use(express.static(__dirname));
 
 app.get("/", (req, res) => {
-  res.sendFile("/index");
+  //res.sendFile("/index");
+  res.send("Hello world");
 });
 let username = {};
 io.on("connection", (socket) => {
