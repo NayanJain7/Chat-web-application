@@ -4,20 +4,40 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script defer src="/socket.io/socket.io.js"></script>
-    <script defer src="client.js"></script>
+
     <link rel="stylesheet" href="style.css" />
-    <title>Chat App</title>
+    <title>Chatter- say hello to privacy</title>
   </head>
   <body>
     <section class="chat_section">
+
+      <div class="brand">
+
+        <img src="./chatter.png" alt="logo" >
+
+        <h3>Chatter</h3>
+
+      </div>
+
+
+
       <div class="message_area"></div>
 
       <div class="send">
         <form action="post" id="send-container">
-          <input type="text" name="messageInp" id="messageInp" placeholder="Write a message..." />
+          <input
+            type="text"
+            name="messageInp"
+            id="messageInp"
+            placeholder="Write a message..."
+            autocomplete="off"
+          />
+          <input type="button" value="File" id="fileBtn" />
           <button class="btn" type="submit">send</button>
         </form>
+        <input type="file" name="files" id="file" />
       </div>
     </section>
   </body>
+  <script defer src="client.js"></script>
 </html>

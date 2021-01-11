@@ -2,10 +2,49 @@ const socket = io();
 
 const form = document.getElementById("send-container");
 const messageInput = document.getElementById("messageInp");
+const fileBtn = document.getElementById("fileBtn");
+const fileChoosen = document.getElementById("file");
 const messageArea = document.querySelector(".message_area");
 
-var audio = new Audio('Ding.mp3');
+var audio = new Audio("Ding.mp3");
 
+fileBtn.addEventListener("click", () => {
+  fileChoosen.click();
+});
+
+fileChoosen.addEventListener("change", () => {
+  const file = fileChoosen.files[0];
+
+  showImage(file);
+
+  const formData = new FormData();
+
+  formData.append("files", file);
+
+  const xhr = new XMLHttpRequest();
+  xhr.onreadystatechange = () => {
+    console.log(xhr.readyState);
+  };
+
+  xhr.open("POST", "http://localhost:8000/file");
+  xhr.send(formData);
+});
+
+function showImage(file) {
+  appendImage(file, "right");
+  socket.emit("image-send", file.name);
+
+  scrollToBottom();
+}
+
+
+
+socket.on("show-image-all", (filename) => {
+  window.setTimeout(() =>{
+  appendImage(filename, "left");
+  console.log("Inside on Show Image all ",filename)
+},5000);
+});
 
 let username;
 do {
@@ -13,35 +52,32 @@ do {
 } while (!username);
 
 //show user joined,inform to server
-  socket.emit("new-user-joined", username);
+socket.emit("new-user-joined", username);
 
- //show user joined message on page
-  socket.on("user-joined", (name) => {
-    audio.play();
-    appendMessageCenter(name, "join");
-  });
-  // on send message 
+//show user joined message on page
+socket.on("user-joined", (name) => {
+  audio.play();
+  appendMessageCenter(name, "join");
+});
+// on send message
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   const message = messageInput.value;
 
-  if(message.trim()==""){
+  if (message.trim() == "") {
     alert("Message not be empty");
-    return
+    return;
   }
 
   messageInput.value = "";
   sendMessage(message);
 });
 
-
-
 // Recieve Message from other users
 socket.on("send-message", (msg) => {
   audio.play();
   appendMessage(msg, "left");
   scrollToBottom();
- 
 });
 
 // user left
@@ -69,18 +105,19 @@ function appendMessageCenter(name, sign) {
   let messageDiv = document.createElement("div");
   messageDiv.classList.add("center");
   let markup;
-  if(name==null){
+  if (name == null) {
     return;
   }
   if (sign == "join") {
-    markup = `<p>${name} joined the chat</p>`;
+    markup = `<p id="join">${name} joined the chat</p>`;
     audio.play();
   } else {
-    markup = `<p>${name} left the chat</p>`;
+    markup = `<p id="left">${name} left the chat</p>`;
   }
 
   messageDiv.innerHTML = markup;
   messageArea.appendChild(messageDiv);
+  scrollToBottom();
 }
 
 function appendMessage(msg, classType) {
@@ -90,13 +127,63 @@ function appendMessage(msg, classType) {
   messageDiv.classList.add("message", className);
 
   let markup = `
-            <h4>${msg.user}</h4>
+            <div id='name${className}'>
+            <h4>${msg.user}</h4></div>
             <p>${msg.message}</p>
-
+            <span style="font-size: x-small;color: black;">${new Date().toLocaleTimeString()}</span>
     `;
   messageDiv.innerHTML = markup;
 
   messageArea.appendChild(messageDiv);
+}
+
+function appendImage(file, classType) {
+  let messageDiv = document.createElement("div");
+  let className = classType;
+
+  messageDiv.classList.add("message", className, "imageback");
+
+  let markup;
+  let file_url;
+  let file_extension;
+  if (classType === "right") {
+    file_url = URL.createObjectURL(file);
+    file_extension = file.name.split(".")[1];
+  } else {
+    file_url = `./UploadFiles/${file}`;
+    file_extension = file.split(".")[1];
+  }
+
+  markup = generateMarkup(file_url, file_extension);
+
+  messageDiv.innerHTML = markup;
+
+  messageArea.appendChild(messageDiv);
+  scrollToBottom();
+}
+
+function generateMarkup(file_url, file_extension) {
+  let markup;
+  const acceptedImage = ["gif", "jpeg", "png", "jpg"];
+  const acceptedAudio = ["mp3", "m4a", "wav", "ogg"];
+  const acceptedVideo = ["mp4", "mov", "avi", ".mov"];
+
+  if (acceptedImage.includes(file_extension.toLowerCase())) {
+    markup = `<img src='${file_url}' class='image'> `;
+  } else if (acceptedAudio.includes(file_extension.toLowerCase())) {
+    markup = `<audio controls class='audio'><source src='${file_url}' type='audio/${file_extension}' /> </audio> `;
+  } else if (acceptedVideo.includes(file_extension.toLowerCase())) {
+    markup = `<video controls class='video'><source src='${file_url}' type='video/${file_extension}' /> </video> `;
+  }
+  else{
+    markup="";
+    return markup;
+  }
+
+  return markup+`<br><span style="
+  font-size: small;
+  color: black;
+">${new Date().toLocaleTimeString()}</span>`;
 }
 
 function scrollToBottom() {
