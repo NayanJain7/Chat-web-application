@@ -43,7 +43,7 @@ socket.on("show-image-all", (filename) => {
   window.setTimeout(() =>{
   appendImage(filename, "left");
   console.log("Inside on Show Image all ",filename)
-},5000);
+},15000);
 });
 
 let username;
