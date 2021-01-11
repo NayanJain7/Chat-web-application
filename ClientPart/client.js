@@ -26,7 +26,7 @@ fileChoosen.addEventListener("change", () => {
     console.log(xhr.readyState);
   };
 
-  xhr.open("POST", "http://localhost:8000/file");
+  xhr.open("POST", "https://chatter-webapplication.herokuapp.com/file");
   xhr.send(formData);
 });
 
