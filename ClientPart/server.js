@@ -13,7 +13,8 @@ app.use(upload());
 let username = {};
 
 app.get("/", (req, res) => {
-  res.sendFile("/index");
+  //res.sendFile("/index");
+  res.send("Hello world");
 });
 
 // file send request

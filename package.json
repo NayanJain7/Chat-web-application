@@ -4,8 +4,13 @@
   "description": "chat applocation",
   "main": "ClientPart/server.js",
   "scripts": {
+<<<<<<< HEAD
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
+=======
+     "test": "echo \"Error: no test specified\" && exit 1",
+    "start":"node ClientPart/server.js"
+>>>>>>> 81cb85bee0ba68019631367ccd981d02a6c4cc53
   },
   "author": "nayan",
   "license": "ISC",
