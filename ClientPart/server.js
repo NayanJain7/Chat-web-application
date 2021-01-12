@@ -40,7 +40,8 @@ app.post("/file", (req, res) => {
 
 app.get("/show",(req,res) => {
 
-  res.sendFile(path.join(__dirname,`/UploadFiles/${fileName}`));
+  res.sendFile(path.join(__dirname,`../UploadFiles/${fileName}`));
+  console.log("File path is ",path.join(__dirname,`../UploadFiles/${fileName}`));
 });
 
 
