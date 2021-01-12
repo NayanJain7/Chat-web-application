@@ -42,7 +42,7 @@ app.get("/show",(req,res) => {
     const filename = req.query.filename;
 
   try {
-    res.sendFile((path.join(__dirname,`../UploadFiles/${filename}`));
+    res.sendFile(path.join(__dirname,`../UploadFiles/${filename}`));
     console.log("filename is ", filename," from : SHOW");
     } 
   catch (err) {
