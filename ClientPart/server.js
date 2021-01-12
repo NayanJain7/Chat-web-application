@@ -43,7 +43,7 @@ app.get("/show",(req,res) => {
 
   try {
     res.sendFile((path.join(__dirname,`../UploadFiles/${filename}`));
-    console.log("filename is ", filename," from : SHOW);
+    console.log("filename is ", filename," from : SHOW");
     } 
   catch (err) {
     console.log(
