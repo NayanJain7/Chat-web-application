@@ -11,6 +11,7 @@ app.use(express.static(__dirname));
 app.use(upload());
 
 let username = {};
+let fileName;
 
 app.get("/", (req, res) => {
   res.sendFile("/index");
@@ -30,11 +31,16 @@ app.post("/file", (req, res) => {
         console.log("File Uploaded error line no.29 => ", err);
       } else {
         console.log("File uploaded");
-        username[filename]=filename;
+        fileName=filename;
         console.log(username);
       }
     });
   }
+});
+
+app.get("/show",(req,res) => {
+
+  res.sendFile(path.join(__dirname,`/UploadFiles/${fileName}`));
 });
 
 
