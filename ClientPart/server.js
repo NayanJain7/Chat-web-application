@@ -4,6 +4,8 @@ const upload = require("express-fileupload");
 const path = require("path");
 const http = require("http").createServer(app);
 const io = require("socket.io")(http);
+const fs = require("fs");
+var cron = require('node-cron');
 
 const port = process.env.PORT || 8000;
 
@@ -90,4 +92,19 @@ io.on("connection", (socket) => {
 http.listen(port, () => {
   console.log("Listening.....");
 });
+//cron schdeular
+cron.schedule('30 23 * * *', function() {
+
+  var dir = path.join(__dirname, "../UploadFiles");
+fs.readdir(dir, (err, files) => {
+  files.map((file) => {
+    fs.unlinkSync(path.join(dir, file));
+    console.log('---------------------');
+    console.log("file deleted", file);
+    console.log('---------------------');
+  });
+});
+  
+});
+
 
