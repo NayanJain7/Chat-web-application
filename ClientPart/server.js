@@ -42,12 +42,12 @@ app.get("/show",(req,res) => {
     const filename = req.query.filename;
 
   try {
-    res.sendFile((path.join(__dirname,`../UploadFiles/${fileName}`));
+    res.sendFile((path.join(__dirname,`../UploadFiles/${filename}`));
     console.log("filename is ", filename," from : SHOW);
     } 
   catch (err) {
     console.log(
-      "Some error come in show mapping line no 81 ====>",
+      "Some error come in show mapping  ====>",
       err,
       " <====="
     );
