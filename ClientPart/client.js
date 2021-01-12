@@ -150,7 +150,7 @@ function appendImage(file, classType) {
     file_url = URL.createObjectURL(file);
     file_extension = file.name.split(".")[1];
   } else {
-    file_url = 'https://chatter-webapplication.herokuapp.com/show';
+    file_url = 'https://chatter-webapplication.herokuapp.com/show?filename=${file}`';
     file_extension = file.split(".")[1];
   }
 
