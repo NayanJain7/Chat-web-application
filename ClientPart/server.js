@@ -11,7 +11,7 @@ app.use(express.static(__dirname));
 app.use(upload());
 
 let username = {};
-let fileName;
+
 
 app.get("/", (req, res) => {
   res.sendFile("/index");
@@ -30,18 +30,31 @@ app.post("/file", (req, res) => {
         res.send("File not uploaded", err);
         console.log("File Uploaded error line no.29 => ", err);
       } else {
-        console.log("File uploaded");
-        fileName=filename;
-        console.log(username);
+        console.log("File uploaded : POST Method");
+       
       }
     });
   }
 });
 
 app.get("/show",(req,res) => {
+  
+    const filename = req.query.filename;
 
-  res.sendFile(path.join(__dirname,`../UploadFiles/${fileName}`));
-  console.log("File path is ",path.join(__dirname,`../UploadFiles/${fileName}`));
+  try {
+    res.sendFile((path.join(__dirname,`../UploadFiles/${fileName}`));
+    console.log("filename is ", filename," from : SHOW);
+    } 
+  catch (err) {
+    console.log(
+      "Some error come in show mapping line no 81 ====>",
+      err,
+      " <====="
+    );
+  }
+
+
+ 
 });
 
 
@@ -62,7 +75,9 @@ io.on("connection", (socket) => {
   });
 
   socket.on("image-send", (filename) => {
-    socket.broadcast.emit("show-image-all", filename);
+     setTimeout(() =>{
+      socket.broadcast.emit("show-image-all", filename);
+    },2000);
   });
 
   socket.on("disconnect", (message) => {
