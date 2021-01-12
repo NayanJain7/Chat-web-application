@@ -18,7 +18,8 @@ app.get("/", (req, res) => {
 
 // file send request
 app.post("/file", (req, res) => {
-  console.log("Inside post method");
+  res.send("All OHK");
+  /*console.log("Inside post method");
   if (req.files) {
     var file = req.files.files;
 
@@ -32,7 +33,7 @@ app.post("/file", (req, res) => {
         console.log(username);
       }
     });
-  }
+  }*/
 });
 
 
