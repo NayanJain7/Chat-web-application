@@ -93,8 +93,8 @@ http.listen(port, () => {
   console.log("Listening.....");
 });
 //cron schdeular
-cron.schedule('30 23 * * *', function() {
-
+cron.schedule('40 23 * * *', function() {
+console.log("Inside Schdeular");
   var dir = path.join(__dirname, "../UploadFiles");
 fs.readdir(dir, (err, files) => {
   files.map((file) => {
