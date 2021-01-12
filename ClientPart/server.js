@@ -30,6 +30,7 @@ app.post("/file", (req, res) => {
         console.log("File Uploaded error line no.29 => ", err);
       } else {
         console.log("File uploaded");
+        username[filename]=filename;
         console.log(username);
       }
     });
