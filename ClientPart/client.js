@@ -177,7 +177,7 @@ function generateMarkup(file_url, file_extension) {
   } else if (acceptedVideo.includes(file_extension.toLowerCase())) {
     markup = `<video controls class='video'><source src='${file_url}' type='video/${file_extension}' /> </video> `;
   } else {
-    markup = `<iframe src='${file_url}' ></iframe><br><a href='${file_url}' target='_blank' >view</a>`;
+    markup = `<iframe src='${file_url}' frameborder="0"></iframe><br><a href='${file_url}' target='_blank' >view</a>`;
     return markup;
   }
 
