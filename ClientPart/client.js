@@ -14,9 +14,6 @@ fileBtn.addEventListener("click", () => {
 
 fileChoosen.addEventListener("change", () => {
   const file = fileChoosen.files[0];
-
-  showImage(file);
-
   const formData = new FormData();
 
   formData.append("files", file);
@@ -28,28 +25,33 @@ fileChoosen.addEventListener("change", () => {
 
   xhr.open("POST", "https://chatter-webapplication.herokuapp.com/file");
   xhr.send(formData);
+
+  showImage(file);
 });
 
 function showImage(file) {
   appendImage(file, "right");
-  socket.emit("image-send", file.name);
 
   scrollToBottom();
+  socket.emit("image-send", file.name);
 }
 
-
-
 socket.on("show-image-all", (filename) => {
-  window.setTimeout(() =>{
-  appendImage(filename, "left");
-  console.log("Inside on Show Image all ",filename)
-},5000);
+  window.setTimeout(() => {
+    appendImage(filename, "left");
+  }, 5000);
 });
 
 let username;
 do {
   username = prompt("Enter your name to join");
 } while (!username);
+
+if (username.trim().length < 2) {
+  console.log(username.trim().length < 2);
+  alert("Enter valid name");
+  window.location.reload();
+}
 
 //show user joined,inform to server
 socket.emit("new-user-joined", username);
@@ -150,7 +152,7 @@ function appendImage(file, classType) {
     file_url = URL.createObjectURL(file);
     file_extension = file.name.split(".")[1];
   } else {
-    file_url = `https://chatter-webapplication.herokuapp.com/show?filename=${file}`;
+    file_url = `http://localhost:8000/show?filename=${file}`;
     file_extension = file.split(".")[1];
   }
 
@@ -174,16 +176,18 @@ function generateMarkup(file_url, file_extension) {
     markup = `<audio controls class='audio'><source src='${file_url}' type='audio/${file_extension}' /> </audio> `;
   } else if (acceptedVideo.includes(file_extension.toLowerCase())) {
     markup = `<video controls class='video'><source src='${file_url}' type='video/${file_extension}' /> </video> `;
-  }
-  else{
-    markup="";
+  } else {
+    markup = `<iframe src='${file_url}' ></iframe><br><a href='${file_url}' target='_blank' >view</a>`;
     return markup;
   }
 
-  return markup+`<br><span style="
+  return (
+    markup +
+    `<br><span style="
   font-size: small;
   color: black;
-">${new Date().toLocaleTimeString()}</span>`;
+">${new Date().toLocaleTimeString()}</span>`
+  );
 }
 
 function scrollToBottom() {
