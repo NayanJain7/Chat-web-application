@@ -206,7 +206,7 @@ section.chat_section {
     color: #333;
     font-size: 14px;
   }
-  .image {
+  .image, .video {
     cursor: pointer;
     width: 40vw;
     height: 25vh;
